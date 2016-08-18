@@ -7,6 +7,7 @@ public class Window {
 
     private int x;
     private int y;
+    private JPanel background;
     private Snake snake;
     private Apple apple;
     private GameRunnable gameRunnable;
@@ -28,22 +29,18 @@ public class Window {
         frame.setResizable(false);
 
         // background
-        JPanel background = new JPanel(null);
+        background = new JPanel(null);
         background.setBackground(new Color(33, 155, 77));
         background.setSize(x, y);
         frame.add(background);
 
+        snake = new Snake(this);
 
-        snake = new Snake();
-        for (SnakeSegment segment : snake.getSegments()) {
-            background.add(segment.getJPanel());
-        }
         //snake.setLocation((x/2)-(snake.getCenter().x), ((y-25)/2)-(snake.getCenter().y));
         //background.add(snake);
 
         apple = new Apple();
         background.add(apple.getJPanel());
-
 
         gameRunnable = new GameRunnable(this);
         new Thread(gameRunnable).start();
@@ -57,6 +54,10 @@ public class Window {
 
     public Apple getApple() {
         return apple;
+    }
+
+    public JPanel getBackground() {
+        return background;
     }
 
     public GameRunnable getGameRunnable() {

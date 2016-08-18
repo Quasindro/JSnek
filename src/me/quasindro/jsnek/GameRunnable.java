@@ -1,6 +1,5 @@
 package me.quasindro.jsnek;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GameRunnable implements Runnable {
@@ -13,6 +12,7 @@ public class GameRunnable implements Runnable {
     private Direction lastMovement;
     private Thread thread;
     private boolean isSpedUp;
+    private Point nextSegment;
 
     public GameRunnable(Window window) {
         this.window = window;
@@ -28,10 +28,17 @@ public class GameRunnable implements Runnable {
             if (thread == null) {
                 thread = Thread.currentThread();
             }
+
+            moveSnake();
+            if (nextSegment != null) {
+                window.getSnake().addSegment(nextSegment);
+                window.getSnake().colorSnake();
+                nextSegment = null;
+            }
+            checkCollision();
+
             try {
                 Thread.sleep(tick);
-                moveSnake();
-                checkCollision();
             } catch (InterruptedException ignored) {}
         }
     }
@@ -60,26 +67,7 @@ public class GameRunnable implements Runnable {
 
     private void moveSnake() {
         Snake snake = window.getSnake();
-        JPanel firstJPanel = snake.getFirstSegment().getJPanel();
-        switch (snake.getDirection()) {
-            case UP: {
-                firstJPanel.setLocation(firstJPanel.getLocation().x, firstJPanel.getLocation().y - PixelComponent.PIXEL_SIZE);
-                break;
-            }
-            case DOWN: {
-                firstJPanel.setLocation(firstJPanel.getLocation().x, firstJPanel.getLocation().y + PixelComponent.PIXEL_SIZE);
-                break;
-            }
-            case LEFT: {
-                firstJPanel.setLocation(firstJPanel.getLocation().x - PixelComponent.PIXEL_SIZE, firstJPanel.getLocation().y);
-                break;
-            }
-            case RIGHT: {
-                firstJPanel.setLocation(firstJPanel.getLocation().x + PixelComponent.PIXEL_SIZE, firstJPanel.getLocation().y);
-                break;
-            }
-            default: // do nothing
-        }
+        snake.move();
         lastMovement = snake.getDirection();
     }
 
@@ -89,8 +77,8 @@ public class GameRunnable implements Runnable {
 
         Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
         if (snakeLoc.equals(apple.getJPanel().getLocation())) {
-            System.out.println("collision");
             apple.setRandomLocation();
+            nextSegment = snake.getLastSegment().getJPanel().getLocation();
             return;
         }
 
@@ -102,5 +90,7 @@ public class GameRunnable implements Runnable {
         }
 
         // todo game over when own segment gets bitten, add a segment when eating an apple
+        // when the apple gets eaten the location of the last segment gets saved and that segment in that point will get added on next tick
+        // checkmate
     }
 }
