@@ -16,12 +16,12 @@ public class Window {
         frame.setLayout(null);
 
         x = 300;
-        y = 300; // window itself + the fucking title bar, took me ages to realize
+        y = 300;
 
         // setup the window
         frame.setTitle("JSnek");
         frame.setVisible(true);
-        frame.setSize(x + 6, y + 29);
+        frame.setSize(x + 6, y + 29); // bs
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -43,6 +43,7 @@ public class Window {
         Apple apple = new Apple();
         apple.getJPanel().setLocation(0, 0);
         background.add(apple.getJPanel());
+
 
         gameRunnable = new GameRunnable(this);
         new Thread(gameRunnable).start();

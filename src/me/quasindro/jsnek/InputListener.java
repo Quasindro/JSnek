@@ -43,14 +43,18 @@ public class InputListener extends KeyAdapter {
             }
             default: // do nothing
         }
-        System.out.println(snake.getDirection());
+        Thread gameThread = window.getGameRunnable().getThread();
+        if (!(gameThread.isInterrupted()) && !window.getGameRunnable().isSpedUp()) {
+            gameThread.interrupt();
+            window.getGameRunnable().speedUp();
+        }
         pressed = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if (pressed) {
-            System.out.println("arrow key pressed?");
+            window.getGameRunnable().slowDown();
             pressed = false;
         }
     }
