@@ -1,6 +1,7 @@
 package me.quasindro.jsnek;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GameRunnable implements Runnable {
 
@@ -26,11 +27,11 @@ public class GameRunnable implements Runnable {
         while (true) {
             if (thread == null) {
                 thread = Thread.currentThread();
-                System.out.println("thread set: " + Thread.currentThread());
             }
             try {
                 Thread.sleep(tick);
                 moveSnake();
+                checkCollision();
             } catch (InterruptedException ignored) {}
         }
     }
@@ -80,5 +81,26 @@ public class GameRunnable implements Runnable {
             default: // do nothing
         }
         lastMovement = snake.getDirection();
+    }
+
+    private void checkCollision() {
+        Snake snake = window.getSnake();
+        Apple apple = window.getApple();
+
+        Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
+        if (snakeLoc.equals(apple.getJPanel().getLocation())) {
+            System.out.println("collision");
+            apple.setRandomLocation();
+            return;
+        }
+
+        if (snakeLoc.getX() < bounds[0] ||
+                snakeLoc.getY() < bounds[1] ||
+                snakeLoc.getX() >= bounds[2] ||
+                snakeLoc.getY() >= bounds[3]) {
+            System.exit(0);
+        }
+
+        // todo game over when own segment gets bitten, add a segment when eating an apple
     }
 }

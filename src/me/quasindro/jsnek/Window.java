@@ -8,6 +8,7 @@ public class Window {
     private int x;
     private int y;
     private Snake snake;
+    private Apple apple;
     private GameRunnable gameRunnable;
 
     public Window() {
@@ -40,8 +41,7 @@ public class Window {
         //snake.setLocation((x/2)-(snake.getCenter().x), ((y-25)/2)-(snake.getCenter().y));
         //background.add(snake);
 
-        Apple apple = new Apple();
-        apple.getJPanel().setLocation(0, 0);
+        apple = new Apple();
         background.add(apple.getJPanel());
 
 
@@ -53,6 +53,10 @@ public class Window {
 
     public Snake getSnake() {
         return snake;
+    }
+
+    public Apple getApple() {
+        return apple;
     }
 
     public GameRunnable getGameRunnable() {

@@ -44,7 +44,7 @@ public class InputListener extends KeyAdapter {
             default: // do nothing
         }
         Thread gameThread = window.getGameRunnable().getThread();
-        if (!(gameThread.isInterrupted()) && !window.getGameRunnable().isSpedUp()) {
+        if (!gameThread.isInterrupted() && !window.getGameRunnable().isSpedUp()) {
             gameThread.interrupt();
             window.getGameRunnable().speedUp();
         }
