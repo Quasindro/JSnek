@@ -8,20 +8,20 @@ public class Window {
     private int x;
     private int y;
     private Snake snake;
+    private GameRunnable gameRunnable;
 
     public Window() {
-
 
         JFrame frame = new JFrame();
         frame.setLayout(null);
 
-        x = 306;
-        y = 329; // window itself + the fucking title bar, took me ages to realize
+        x = 300;
+        y = 300; // window itself + the fucking title bar, took me ages to realize
 
         // setup the window
         frame.setTitle("JSnek");
         frame.setVisible(true);
-        frame.setSize(x, y);
+        frame.setSize(x + 6, y + 29);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -44,12 +44,17 @@ public class Window {
         apple.getJPanel().setLocation(0, 0);
         background.add(apple.getJPanel());
 
-        new Thread(new GameRunnable(this)).start();
+        gameRunnable = new GameRunnable(this);
+        new Thread(gameRunnable).start();
 
         frame.addKeyListener(new InputListener(this));
     }
 
     public Snake getSnake() {
         return snake;
+    }
+
+    public GameRunnable getGameRunnable() {
+        return gameRunnable;
     }
 }

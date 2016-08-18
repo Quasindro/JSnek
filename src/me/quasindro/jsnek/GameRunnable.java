@@ -7,11 +7,13 @@ public class GameRunnable implements Runnable {
     private Window window;
     private int[] bounds;
     private int tick;
+    private Direction lastMovement;
 
     public GameRunnable(Window window) {
         this.window = window;
         bounds = new int[]{0, 0, 300, 300};
         tick = 300;
+        lastMovement = window.getSnake().getDirection();
     }
 
     @Override
@@ -26,6 +28,10 @@ public class GameRunnable implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Direction getLastMovement() {
+        return lastMovement;
     }
 
     private void moveSnake() {
@@ -50,6 +56,6 @@ public class GameRunnable implements Runnable {
             }
             default: // do nothing
         }
-        System.out.println(firstJPanel.getLocation());
+        lastMovement = snake.getDirection();
     }
 }
