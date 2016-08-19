@@ -1,5 +1,7 @@
 package me.quasindro.jsnek;
 
+import me.quasindro.jsnek.objects.Snake;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -14,6 +16,9 @@ public class InputListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (window.getState() == GameState.STOP) {
+            return;
+        }
         if (window.getState() == GameState.MENU) {
             switch(e.getKeyCode()) {
                 case KeyEvent.VK_LEFT: {
@@ -26,7 +31,6 @@ public class InputListener extends KeyAdapter {
                 }
                 case KeyEvent.VK_ENTER: {
                     window.startGame(window.getMenu().getChoice());
-                    window.setState(GameState.PLAYING);
                     break;
                 }
                 default: // do nothing
@@ -72,6 +76,9 @@ public class InputListener extends KeyAdapter {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (window.getState() == GameState.STOP || window.getState() == GameState.MENU) {
+            return;
+        }
         if (pressed) {
             window.getGameRunnable().slowDown();
             pressed = false;

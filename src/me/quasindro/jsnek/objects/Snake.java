@@ -1,4 +1,7 @@
-package me.quasindro.jsnek;
+package me.quasindro.jsnek.objects;
+
+import me.quasindro.jsnek.Direction;
+import me.quasindro.jsnek.PixelComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,12 +9,12 @@ import java.util.*;
 
 public class Snake {
 
-    private Window window;
+    private me.quasindro.jsnek.Window window;
     private Direction direction;
     private Deque<SnakeSegment> segments;
     private Map<SnakeSegment, Point> locations = new HashMap<>();
 
-    public Snake(Window window) {
+    public Snake(me.quasindro.jsnek.Window window) {
         this.window = window;
         direction = Direction.RIGHT;
         segments = new ArrayDeque<>();
@@ -48,10 +51,12 @@ public class Snake {
                     }
                     default: // do nothing
                 }
+                window.addTakenLocation(segment.getJPanel().getLocation());
                 continue;
             }
 
             segment.getJPanel().setLocation(locations.get(previous));
+            window.addTakenLocation(segment.getJPanel().getLocation());
             previous = segment;
         }
         locations.clear();
@@ -75,7 +80,21 @@ public class Snake {
         window.getBackground().add(segment.getJPanel());
     }
 
+    public void removeLastSegment() {
+        if (segments.isEmpty()) {
+            window.endGame();
+            return;
+        }
+        SnakeSegment segment = segments.getLast();
+        window.getBackground().remove(segment.getJPanel());
+        segments.remove(segment);
+    }
+
     public SnakeSegment getFirstSegment() {
+        if (segments.isEmpty()) {
+            window.endGame();
+            return null;
+        }
         return segments.getFirst();
     }
 

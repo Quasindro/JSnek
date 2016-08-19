@@ -1,7 +1,11 @@
-package me.quasindro.jsnek;
+package me.quasindro.jsnek.objects;
+
+import me.quasindro.jsnek.PixelComponent;
+import me.quasindro.jsnek.Window;
+
+import java.util.Random;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Apple extends PixelComponent {
 
@@ -18,12 +22,11 @@ public class Apple extends PixelComponent {
     public void setRandomLocation() {
         Random random = new Random();
         Point point = new Point(random.nextInt(281/20)*20, random.nextInt(281/20)*20);
-        for (SnakeSegment segment : window.getSnake().getSegments()) {
-            if (segment.getJPanel().getLocation().equals(point)) {
-                setRandomLocation();
-                return;
-            }
+        if (!window.isLocationTaken(point)) {
+            getJPanel().setLocation(point);
+            window.addTakenLocation(point);
+        } else {
+            setRandomLocation();
         }
-        getJPanel().setLocation(point);
     }
 }

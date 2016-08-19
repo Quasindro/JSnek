@@ -1,6 +1,12 @@
 package me.quasindro.jsnek;
 
+import me.quasindro.jsnek.objects.Apple;
+import me.quasindro.jsnek.objects.BadApple;
+import me.quasindro.jsnek.objects.Snake;
+import me.quasindro.jsnek.objects.SnakeSegment;
+
 import java.awt.*;
+import java.util.Set;
 
 public class GameRunnable implements Runnable {
 
@@ -28,6 +34,10 @@ public class GameRunnable implements Runnable {
         while (true) {
             if (thread == null) {
                 thread = Thread.currentThread();
+            }
+
+            if (window.getState() != GameState.PLAYING) {
+                return;
             }
 
             moveSnake();
@@ -73,6 +83,11 @@ public class GameRunnable implements Runnable {
     private void checkCollision() {
         Snake snake = window.getSnake();
         Apple apple = window.getApple();
+        Set<BadApple> badApples = window.getBadApples();
+
+        if (snake.getFirstSegment() == null) {
+            return;
+        }
 
         Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
 
@@ -83,10 +98,21 @@ public class GameRunnable implements Runnable {
             return;
         }
 
+        // eat a bad apple
+        for (BadApple badApple : badApples) {
+            if (snakeLoc.equals(badApple.getJPanel().getLocation())) {
+                badApple.setRandomLocation();
+                snake.removeLastSegment();
+                snake.removeLastSegment();
+                return;
+            }
+        }
+
         //eat self
         for (SnakeSegment segment : snake.getSegments()) {
             if (snakeLoc.equals(segment.getJPanel().getLocation()) && !segment.getJPanel().equals(snake.getFirstSegment().getJPanel())) {
-                System.exit(0);
+                window.endGame();
+                return;
             }
         }
 
@@ -95,11 +121,8 @@ public class GameRunnable implements Runnable {
                 snakeLoc.getY() < bounds[1] ||
                 snakeLoc.getX() >= bounds[2] ||
                 snakeLoc.getY() >= bounds[3]) {
-            System.exit(0);
+            window.endGame();
+            return;
         }
-
-        // todo game over when own segment gets bitten, add a segment when eating an apple
-        // when the apple gets eaten the location of the last segment gets saved and that segment in that point will get added on next tick
-        // checkmate
     }
 }

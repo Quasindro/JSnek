@@ -10,11 +10,6 @@ public class HardButton extends MenuButton {
     }
 
     @Override
-    public void choose() {
-
-    }
-
-    @Override
     public void createLetter() {
 
         JPanel vert1 = new JPanel(null);

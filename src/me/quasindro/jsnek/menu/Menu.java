@@ -28,10 +28,6 @@ public class Menu {
         return holder;
     }
 
-    public void choose() {
-        //buttons[choice].choose();
-    }
-
     public int getChoice() {
         return choice;
     }

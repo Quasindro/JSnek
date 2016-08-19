@@ -36,7 +36,5 @@ public abstract class MenuButton {
         return panel;
     }
 
-    public abstract void choose();
-
     protected abstract void createLetter();
 }

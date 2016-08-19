@@ -10,11 +10,6 @@ public class MediumButton extends MenuButton {
     }
 
     @Override
-    public void choose() {
-
-    }
-
-    @Override
     public void createLetter() {
         JPanel vert1 = new JPanel(null);
         vert1.setLocation(20, 20);

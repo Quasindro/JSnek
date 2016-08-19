@@ -10,11 +10,6 @@ public class LowButton extends MenuButton {
     }
 
     @Override
-    public void choose() {
-
-    }
-
-    @Override
     public void createLetter() {
         JPanel vert = new JPanel(null);
         vert.setLocation(20, 20);
