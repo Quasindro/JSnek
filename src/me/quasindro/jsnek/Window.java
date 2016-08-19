@@ -39,7 +39,7 @@ public class Window {
         //snake.setLocation((x/2)-(snake.getCenter().x), ((y-25)/2)-(snake.getCenter().y));
         //background.add(snake);
 
-        apple = new Apple();
+        apple = new Apple(this);
         background.add(apple.getJPanel());
 
         gameRunnable = new GameRunnable(this);

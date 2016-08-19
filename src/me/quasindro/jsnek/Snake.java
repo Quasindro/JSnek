@@ -57,10 +57,6 @@ public class Snake {
         locations.clear();
     }
 
-    public void eat() {
-        colorSnake();
-    }
-
     public Direction getDirection() {
         return direction;
     }
@@ -85,22 +81,5 @@ public class Snake {
 
     public SnakeSegment getLastSegment() {
         return segments.getLast();
-    }
-
-    public void colorSnake() {
-        int center = 128;
-        int width = 127;
-        double frequency = Math.PI*2/segments.size();
-
-        Iterator it = segments.iterator();
-        int i = 1;
-        while (it.hasNext()) {
-            SnakeSegment segment = (SnakeSegment) it.next();
-            int red   = (int) Math.round(Math.sin(frequency*i+2) * width + center);
-            int green = (int) Math.round(Math.sin(frequency*i+0) * width + center);
-            int blue  = (int) Math.round(Math.sin(frequency*i+4) * width + center);
-            segment.getJPanel().setBackground(new Color(red, green, blue));
-            i++;
-        }
     }
 }

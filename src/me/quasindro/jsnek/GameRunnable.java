@@ -32,7 +32,6 @@ public class GameRunnable implements Runnable {
             moveSnake();
             if (nextSegment != null) {
                 window.getSnake().addSegment(nextSegment);
-                window.getSnake().colorSnake();
                 nextSegment = null;
             }
             checkCollision();
@@ -76,12 +75,21 @@ public class GameRunnable implements Runnable {
         Apple apple = window.getApple();
 
         Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
+
+        //eat
         if (snakeLoc.equals(apple.getJPanel().getLocation())) {
             apple.setRandomLocation();
             nextSegment = snake.getLastSegment().getJPanel().getLocation();
             return;
         }
 
+        for (SnakeSegment segment : snake.getSegments()) {
+            if (snakeLoc.equals(segment.getJPanel().getLocation()) && !segment.getJPanel().equals(snake.getFirstSegment().getJPanel())) {
+                System.exit(0);
+            }
+        }
+
+        //hit wall
         if (snakeLoc.getX() < bounds[0] ||
                 snakeLoc.getY() < bounds[1] ||
                 snakeLoc.getX() >= bounds[2] ||
