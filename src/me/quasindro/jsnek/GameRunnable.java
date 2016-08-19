@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class GameRunnable implements Runnable {
 
-    public static final int DEFAULT_TICK = 500;
+    private int defaultTick;
 
     private Window window;
     private int[] bounds;
@@ -14,10 +14,11 @@ public class GameRunnable implements Runnable {
     private boolean isSpedUp;
     private Point nextSegment;
 
-    public GameRunnable(Window window) {
+    public GameRunnable(Window window, int defaultTick) {
         this.window = window;
+        this.defaultTick = defaultTick;
         bounds = new int[]{0, 0, 300, 300};
-        tick = DEFAULT_TICK;
+        tick = defaultTick;
         lastMovement = window.getSnake().getDirection();
     }
 
@@ -35,7 +36,6 @@ public class GameRunnable implements Runnable {
                 nextSegment = null;
             }
             checkCollision();
-
             try {
                 Thread.sleep(tick);
             } catch (InterruptedException ignored) {}
@@ -51,12 +51,12 @@ public class GameRunnable implements Runnable {
     }
 
     public void speedUp() {
-        tick = DEFAULT_TICK/2;
+        tick = defaultTick/2;
         isSpedUp = true;
     }
 
     public void slowDown() {
-        tick = DEFAULT_TICK;
+        tick = defaultTick;
         isSpedUp = false;
     }
 
@@ -76,13 +76,14 @@ public class GameRunnable implements Runnable {
 
         Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
 
-        //eat
+        //eat an apple
         if (snakeLoc.equals(apple.getJPanel().getLocation())) {
             apple.setRandomLocation();
             nextSegment = snake.getLastSegment().getJPanel().getLocation();
             return;
         }
 
+        //eat self
         for (SnakeSegment segment : snake.getSegments()) {
             if (snakeLoc.equals(segment.getJPanel().getLocation()) && !segment.getJPanel().equals(snake.getFirstSegment().getJPanel())) {
                 System.exit(0);

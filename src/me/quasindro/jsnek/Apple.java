@@ -11,6 +11,7 @@ public class Apple extends PixelComponent {
         this.window = window;
         getJPanel().setSize(PIXEL_SIZE, PIXEL_SIZE);
         getJPanel().setBackground(new Color(155, 33, 66));
+        window.getBackground().add(getJPanel());
         setRandomLocation();
     }
 

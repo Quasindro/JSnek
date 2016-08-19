@@ -14,6 +14,25 @@ public class InputListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (window.getState() == GameState.MENU) {
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_LEFT: {
+                    window.getMenu().previousChoice();
+                    break;
+                }
+                case KeyEvent.VK_RIGHT: {
+                    window.getMenu().nextChoice();
+                    break;
+                }
+                case KeyEvent.VK_ENTER: {
+                    window.startGame(window.getMenu().getChoice());
+                    window.setState(GameState.PLAYING);
+                    break;
+                }
+                default: // do nothing
+            }
+            return;
+        }
         Snake snake = window.getSnake();
         Direction lastMovement = window.getGameRunnable().getLastMovement();
         switch (e.getKeyCode()) {

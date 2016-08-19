@@ -1,5 +1,7 @@
 package me.quasindro.jsnek;
 
+import me.quasindro.jsnek.menu.Menu;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +13,8 @@ public class Window {
     private Snake snake;
     private Apple apple;
     private GameRunnable gameRunnable;
+    private GameState state;
+    private Menu menu;
 
     public Window() {
 
@@ -34,18 +38,22 @@ public class Window {
         background.setSize(x, y);
         frame.add(background);
 
-        snake = new Snake(this);
-
-        //snake.setLocation((x/2)-(snake.getCenter().x), ((y-25)/2)-(snake.getCenter().y));
-        //background.add(snake);
-
-        apple = new Apple(this);
-        background.add(apple.getJPanel());
-
-        gameRunnable = new GameRunnable(this);
-        new Thread(gameRunnable).start();
+        state = GameState.MENU;
+        menu = new Menu(background);
 
         frame.addKeyListener(new InputListener(this));
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     public Snake getSnake() {
@@ -62,5 +70,23 @@ public class Window {
 
     public GameRunnable getGameRunnable() {
         return gameRunnable;
+    }
+
+    public void startGame(int difficulty) {
+        menu.getJPanel().removeAll();
+        background.remove(menu.getJPanel());
+        background.revalidate();
+        background.repaint();
+
+        snake = new Snake(this);
+        apple = new Apple(this);
+
+        int defaultTick = 1000;
+        switch (difficulty) {
+            case 1: defaultTick = 500; break;
+            case 2: defaultTick = 200; break;
+        }
+        gameRunnable = new GameRunnable(this, defaultTick);
+        new Thread(gameRunnable).start();
     }
 }
