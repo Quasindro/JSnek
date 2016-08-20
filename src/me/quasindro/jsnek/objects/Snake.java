@@ -11,12 +11,14 @@ public class Snake {
 
     private me.quasindro.jsnek.Window window;
     private Direction direction;
+    private boolean directionChanged;
     private Deque<SnakeSegment> segments;
     private Map<SnakeSegment, Point> locations = new HashMap<>();
 
     public Snake(me.quasindro.jsnek.Window window) {
         this.window = window;
         direction = Direction.RIGHT;
+        directionChanged = true;
         segments = new ArrayDeque<>();
         addSegment(new Point(60, 60));
     }
@@ -63,12 +65,21 @@ public class Snake {
         locations.clear();
     }
 
+    public void turn() {
+        directionChanged = false;
+    }
+
     public Direction getDirection() {
         return direction;
     }
 
     public Direction setDirection(Direction direction) {
+        directionChanged = true;
         return this.direction = direction;
+    }
+
+    public boolean wasDirectionChanged() {
+        return directionChanged;
     }
 
     public Deque<SnakeSegment> getSegments() {

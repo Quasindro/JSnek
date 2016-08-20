@@ -45,25 +45,25 @@ public class InputListener extends KeyAdapter {
         Direction lastMovement = window.getGameRunnable().getLastMovement();
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP: {
-                if (lastMovement != Direction.DOWN) {
+                if (lastMovement != Direction.DOWN && snake.getDirection() != Direction.UP) {
                     snake.setDirection(Direction.UP);
                 }
                 break;
             }
             case KeyEvent.VK_DOWN: {
-                if (lastMovement != Direction.UP) {
+                if (lastMovement != Direction.UP && snake.getDirection() != Direction.DOWN) {
                     snake.setDirection(Direction.DOWN);
                 }
                 break;
             }
             case KeyEvent.VK_LEFT: {
-                if (lastMovement != Direction.RIGHT) {
+                if (lastMovement != Direction.RIGHT && snake.getDirection() != Direction.LEFT) {
                     snake.setDirection(Direction.LEFT);
                 }
                 break;
             }
             case KeyEvent.VK_RIGHT: {
-                if (lastMovement != Direction.LEFT) {
+                if (lastMovement != Direction.LEFT && snake.getDirection() != Direction.RIGHT) {
                     snake.setDirection(Direction.RIGHT);
                 }
                 break;

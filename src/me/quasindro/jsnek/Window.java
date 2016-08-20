@@ -107,15 +107,15 @@ public class Window {
         snake = new Snake(this);
         apple = new Apple(this);
 
-        int defaultTick = 1000;
+        int defaultTick = 500;
         switch (difficulty) {
             case 1: {
-                defaultTick = 500;
+                defaultTick = 200;
                 badApples.add(new BadApple(this));
                 break;
             }
             case 2: {
-                defaultTick = 200;
+                defaultTick = 100;
                 badApples.add(new BadApple(this));
                 badApples.add(new BadApple(this));
                 badApples.add(new BadApple(this));
