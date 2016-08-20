@@ -5,7 +5,7 @@ import java.awt.*;
 
 public abstract class PixelComponent {
 
-    public static final int PIXEL_SIZE = 20;
+    public static final int PIXEL_SIZE = Window.resolution / 16;
 
     private JPanel jPanel;
 

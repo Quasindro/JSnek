@@ -10,22 +10,24 @@ import java.util.Set;
 
 public class GameRunnable implements Runnable {
 
-    private int defaultTick;
-
     private Window window;
     private int[] bounds;
+    private int defaultTick;
     private int tick;
+    private int velocity;
     private Direction lastMovement;
     private Thread thread;
     private boolean isSpedUp;
     private Point nextSegment;
+    private boolean isPaused;
 
     public GameRunnable(Window window, int defaultTick) {
         this.window = window;
         this.defaultTick = defaultTick;
-        bounds = new int[]{0, 0, 300, 300};
+        bounds = new int[]{0, Window.resolution};
         tick = defaultTick;
         lastMovement = window.getSnake().getDirection();
+        isPaused = false;
     }
 
     @Override
@@ -35,6 +37,16 @@ public class GameRunnable implements Runnable {
             if (thread == null) {
                 thread = Thread.currentThread();
             }
+
+            if (isPaused) {
+                try {
+                    Thread.sleep(10);
+                    run();
+                    return;
+                } catch (InterruptedException ignored) {}
+            }
+
+            //velocity = tick/PixelComponent.PIXEL_SIZE;
 
             if (window.getState() != GameState.PLAYING) {
                 return;
@@ -50,6 +62,14 @@ public class GameRunnable implements Runnable {
                 Thread.sleep(tick);
             } catch (InterruptedException ignored) {}
         }
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
     }
 
     public Direction getLastMovement() {
@@ -91,6 +111,8 @@ public class GameRunnable implements Runnable {
 
         Point snakeLoc = snake.getFirstSegment().getJPanel().getLocation();
 
+        // todo ANIMATE SNEK
+
         //eat an apple
         if (snakeLoc.equals(apple.getJPanel().getLocation())) {
             apple.setRandomLocation();
@@ -118,9 +140,9 @@ public class GameRunnable implements Runnable {
 
         //hit wall
         if (snakeLoc.getX() < bounds[0] ||
-                snakeLoc.getY() < bounds[1] ||
-                snakeLoc.getX() >= bounds[2] ||
-                snakeLoc.getY() >= bounds[3]) {
+                snakeLoc.getY() < bounds[0] ||
+                snakeLoc.getX() >= bounds[1] ||
+                snakeLoc.getY() >= bounds[1]) {
             window.endGame();
             return;
         }

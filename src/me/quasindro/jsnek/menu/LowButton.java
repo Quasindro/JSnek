@@ -1,26 +1,26 @@
 package me.quasindro.jsnek.menu;
 
-import javax.swing.*;
+import me.quasindro.jsnek.PixelComponent;
+
 import java.awt.*;
 
 public class LowButton extends MenuButton {
 
-    public LowButton(JPanel parent, Point point) {
-        super(parent, point);
+    public LowButton(Menu menu, Point point) {
+        super(menu, point);
     }
 
     @Override
     public void createLetter() {
-        JPanel vert = new JPanel(null);
-        vert.setLocation(20, 20);
-        vert.setSize(10, 100);
-        vert.setBackground(Color.WHITE);
-        getPanel().add(vert);
-
-        JPanel hor = new JPanel(null);
-        hor.setLocation(20, 110);
-        hor.setSize(60, 10);
-        hor.setBackground(Color.WHITE);
-        getPanel().add(hor);
+        createLetterPanel(
+                new Point(PixelComponent.PIXEL_SIZE, PixelComponent.PIXEL_SIZE),
+                PixelComponent.PIXEL_SIZE / 2,
+                PixelComponent.PIXEL_SIZE * 6
+        );
+        createLetterPanel(
+                new Point(PixelComponent.PIXEL_SIZE, PixelComponent.PIXEL_SIZE * 6 + (PixelComponent.PIXEL_SIZE/2)),
+                PixelComponent.PIXEL_SIZE * 3,
+                PixelComponent.PIXEL_SIZE / 2
+        );
     }
 }

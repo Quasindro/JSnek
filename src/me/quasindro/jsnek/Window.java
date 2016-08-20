@@ -1,5 +1,7 @@
 package me.quasindro.jsnek;
 
+import me.quasindro.jsnek.listeners.FocusListener;
+import me.quasindro.jsnek.listeners.InputListener;
 import me.quasindro.jsnek.menu.Menu;
 import me.quasindro.jsnek.objects.Apple;
 import me.quasindro.jsnek.objects.BadApple;
@@ -12,8 +14,8 @@ import java.util.Set;
 
 public class Window {
 
-    private int x;
-    private int y;
+    public static int resolution = 256;
+
     private JFrame frame;
     private JPanel background;
     private Snake snake;
@@ -21,7 +23,6 @@ public class Window {
     private GameRunnable gameRunnable;
     private GameState state;
     private Menu menu;
-    private InputListener listener;
     private Set<Point> locationsTaken;
     private Set<BadApple> badApples;
 
@@ -30,13 +31,10 @@ public class Window {
         frame = new JFrame();
         frame.setLayout(null);
 
-        x = 300;
-        y = 300;
-
         // setup the window
         frame.setTitle("JSnek");
         frame.setVisible(true);
-        frame.setSize(x + 6, y + 29); // bs
+        frame.setSize(resolution + 6, resolution + 29); // bs
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -44,7 +42,7 @@ public class Window {
         // background
         background = new JPanel(null);
         background.setBackground(new Color(33, 155, 77));
-        background.setSize(x, y);
+        background.setSize(resolution, resolution);
         frame.add(background);
 
         badApples = new HashSet<>();
@@ -53,8 +51,12 @@ public class Window {
         state = GameState.MENU;
         menu = new Menu(background);
 
-        listener = new InputListener(this);
-        frame.addKeyListener(listener);
+        frame.addKeyListener(new InputListener(this));
+        frame.addWindowFocusListener(new FocusListener(this));
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 
     public GameState getState() {
@@ -107,15 +109,15 @@ public class Window {
         snake = new Snake(this);
         apple = new Apple(this);
 
-        int defaultTick = 500;
+        int defaultTick = 512;
         switch (difficulty) {
             case 1: {
-                defaultTick = 200;
+                defaultTick = 256;
                 badApples.add(new BadApple(this));
                 break;
             }
             case 2: {
-                defaultTick = 100;
+                defaultTick = 128;
                 badApples.add(new BadApple(this));
                 badApples.add(new BadApple(this));
                 badApples.add(new BadApple(this));
@@ -133,8 +135,8 @@ public class Window {
         background.revalidate();
         background.repaint();
         badApples.clear();
-        state = GameState.MENU;
         menu = new Menu(background);
+        state = GameState.MENU;
         background.repaint();
     }
 }

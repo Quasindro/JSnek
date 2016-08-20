@@ -10,26 +10,26 @@ import java.awt.*;
 public class Apple extends PixelComponent {
 
     private Window window;
-    private int tries;
+    private int bound;
 
     public Apple(Window window) {
         this.window = window;
-        tries = 0;
         getJPanel().setSize(PIXEL_SIZE, PIXEL_SIZE);
         getJPanel().setBackground(new Color(155, 33, 66));
         window.getBackground().add(getJPanel());
+        bound = Window.resolution-PIXEL_SIZE+1;
         setRandomLocation();
     }
 
+    //random.nextInt(281/20)*20);
+
     public void setRandomLocation() {
         Random random = new Random();
-        Point point = new Point(random.nextInt(281/20)*20, random.nextInt(281/20)*20);
+        Point point = new Point(random.nextInt(bound/PIXEL_SIZE)*PIXEL_SIZE, random.nextInt(bound/PIXEL_SIZE)*PIXEL_SIZE);
         if (!window.isLocationTaken(point)) {
-            tries = 0;
             getJPanel().setLocation(point);
             window.addTakenLocation(point);
         } else {
-            tries++;
             setRandomLocation();
         }
     }

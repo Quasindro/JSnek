@@ -6,22 +6,16 @@ import java.awt.*;
 public abstract class MenuButton {
 
     private JPanel panel;
+    private Menu menu;
 
-    public MenuButton(JPanel parent, Point location) {
-        this(parent);
+    public MenuButton(Menu menu, Point location) {
+        this.menu = menu;
+        panel = new JPanel(null);
+        lowlight();
+        menu.getJPanel().add(getPanel());
+        panel.setSize(menu.getButtonWidth(), menu.getJPanel().getHeight());
         panel.setLocation(location);
         createLetter();
-    }
-
-    public MenuButton(JPanel parent) {
-        this();
-        parent.add(panel);
-    }
-
-    public MenuButton() {
-        panel = new JPanel(null);
-        panel.setSize(100, 300);
-        lowlight();
     }
 
     public void highlight() {
@@ -37,4 +31,12 @@ public abstract class MenuButton {
     }
 
     protected abstract void createLetter();
+
+    protected void createLetterPanel(Point location, int width, int height) {
+        JPanel letterPanel = new JPanel(null);
+        letterPanel.setLocation(location);
+        letterPanel.setSize(width, height);
+        letterPanel.setBackground(Color.WHITE);
+        getPanel().add(letterPanel);
+    }
 }

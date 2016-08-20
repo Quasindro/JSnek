@@ -1,5 +1,8 @@
-package me.quasindro.jsnek;
+package me.quasindro.jsnek.listeners;
 
+import me.quasindro.jsnek.Direction;
+import me.quasindro.jsnek.GameState;
+import me.quasindro.jsnek.Window;
 import me.quasindro.jsnek.objects.Snake;
 
 import java.awt.event.KeyAdapter;

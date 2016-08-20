@@ -20,7 +20,7 @@ public class Snake {
         direction = Direction.RIGHT;
         directionChanged = true;
         segments = new ArrayDeque<>();
-        addSegment(new Point(60, 60));
+        addSegment(new Point(64, 64));
     }
 
     public void move() {
