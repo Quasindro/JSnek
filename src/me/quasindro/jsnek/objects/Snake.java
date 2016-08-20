@@ -29,6 +29,7 @@ public class Snake {
         SnakeSegment previous = null;
         while (it.hasNext()) {
             SnakeSegment segment = (SnakeSegment) it.next();
+            window.releaseTakenLocation(segment.getJPanel().getLocation());
             if (segments.getFirst().equals(segment)) {
                 previous = segment;
                 JPanel firstJPanel = segment.getJPanel();
@@ -86,6 +87,12 @@ public class Snake {
             return;
         }
         SnakeSegment segment = segments.getLast();
+        segment.getJPanel().setBackground(new Color(33, 155, 77));
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         window.getBackground().remove(segment.getJPanel());
         segments.remove(segment);
     }

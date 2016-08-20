@@ -8,10 +8,13 @@ import java.awt.event.KeyEvent;
 public class InputListener extends KeyAdapter {
 
     private Window window;
-    private boolean pressed = false;
+    private int presses;
+    private boolean pressed;
 
     public InputListener(Window window) {
         this.window = window;
+        presses = 0;
+        pressed = false;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class InputListener extends KeyAdapter {
             }
             return;
         }
+        presses++;
         Snake snake = window.getSnake();
         Direction lastMovement = window.getGameRunnable().getLastMovement();
         switch (e.getKeyCode()) {
@@ -68,6 +72,9 @@ public class InputListener extends KeyAdapter {
         }
         Thread gameThread = window.getGameRunnable().getThread();
         if (!gameThread.isInterrupted() && !window.getGameRunnable().isSpedUp()) {
+            if (presses < 3) {
+                return;
+            }
             gameThread.interrupt();
             window.getGameRunnable().speedUp();
         }
@@ -79,6 +86,7 @@ public class InputListener extends KeyAdapter {
         if (window.getState() == GameState.STOP || window.getState() == GameState.MENU) {
             return;
         }
+        presses = 0;
         if (pressed) {
             window.getGameRunnable().slowDown();
             pressed = false;
